@@ -1,0 +1,158 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Face API - V1.0",
+        "version": "1.0",
+        "description": "Microsoft Face API"
+    },
+    "host": "westus2.api.cognitive.microsoft.com",
+    "basePath": "/face/v1.0",
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "apiKeyHeader": {
+            "type": "apiKey",
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header"
+        }
+    },
+    "security": [{
+        "apiKeyHeader": []
+    }],
+    "paths": {
+        "/detect": {
+            "post": {
+                "description": "Detect human faces in an image and returns attributes.",
+                "operationId": "Face - Detect",
+                "parameters": [{
+                        "name": "returnFaceId",
+                        "in": "query",
+                        "description": "Return faceIds of the detected faces or not. The default value is true. ",
+                        "type": "boolean",
+                        "default": "true",
+                        "enum": [
+                            "false",
+                            "true"
+                        ]
+                    },
+                    {
+                        "name": "returnFaceLandmarks",
+                        "in": "query",
+                        "description": "Return face landmarks of the detected faces or not. The default value is false. ",
+                        "type": "boolean",
+                        "default": "false",
+                        "enum": [
+                            "false",
+                            "true"
+                        ]
+                    },
+                    {
+                        "name": "returnFaceAttributes",
+                        "in": "query",
+                        "description": "Analyze and return the one or more specified face attributes in the comma-separated string like \"returnFaceAttributes=age,gender\". Supported face attributes include age, gender, headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure and noise. Note that each face attribute analysis has additional computational and time cost.",
+                        "type": "string",
+                        "default": "emotion"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "url": {
+                                    "type": "string",
+                                    "x-ntx-summary": "Image Url"
+                                }
+                            }
+                        },
+                        "description": "\r\n<article class=\"ed_api_param\">\r\nTo detect in a URL (or binary data) specified image.\r\n<br/><br/>JSON fields in the request body: <br />\r\n<table class=\"element table\">\r\n<thead>\r\n<tr><th>Fields</th><th>Type</th><th>Description</th></tr>\r\n</thead>\r\n<tbody>\r\n<tr><td>url</td><th>String</th><td>URL of input image.</td></tr>\r\n\r\n</tbody>\r\n</table>\r\n  "
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful call returns an array of face entries ranked by face rectangle size in descending\r\norder. An empty response indicates no faces detected. A face entry may contain the following\r\nvalues depending on input parameters:\r\n<table class=\"element table\">\r\n<thead>\r\n<tr><th>Fields</th><th>Type</th><th>Description</th></tr>\r\n</thead>\r\n<tbody>\r\n<tr><td>faceId</td><th>String</th><td>Unique faceId of the detected face, created by detection API and it will expire 24 hours after detection call. To return this, it requires \"returnFaceId\" parameter to be true.</td></tr>\r\n<tr><td>faceRectangle</td><th>Object</th><td>A rectangle area for the face location on image.</td></tr>\r\n<tr><td>faceLandmarks</td><th>Object</th><td>An array of 27-point face landmarks pointing to the important positions of face components. To return this, it requires \"returnFaceLandmarks\" parameter to be true.</td></tr>\r\n<tr><td>faceAttributes</td><th>Object</th>\r\n<td> Face Attributes:\r\n<ul>\r\n<li>age: an age number in years. </li>\r\n<li>gender: male or female.</li>\r\n<li>smile: smile intensity, a number between [0,1] </li>\r\n<li>facialHair: consists of lengths of three facial hair areas: moustache, beard and sideburns. </li>\r\n<li>headPose: 3-D roll/yew/pitch angles for face direction. Pitch value is a reserved field and will always return 0.</li>\r\n<li>glasses: glasses type. Possible values are 'NoGlasses', 'ReadingGlasses', 'Sunglasses', 'SwimmingGoggles'. </li>\r\n<li>emotion: emotions intensity expressed by the face, incluing anger, contempt, disgust, fear, happiness, neutral, sadness and surprise. </li>\r\n<li>hair: return face features indicating whether the hair is visible, bald or not also including hair color if available.</li>\r\n<li>makeup: whether face area (eye, lip) is made-up or not. </li>\r\n<li>accessory: accessory types on face or around face area, including headwear, glasses and mask. Empty array means no accessories detected.</li>\r\n<li>occlusion: whether face area (forehead, eye, mouth) is occluded or not. </li>\r\n<li>blur: blur level of the face. The level include `Low`, `Medium` and `High`. Larger value means more blury the face is.</li>\r\n<li>exposure: exposure level of the face. The level include `GoodExposure`, `OverExposure` and `UnderExposure`.</li>\r\n<li>noise: noise level of the face. The level include `Low`, `Medium` and `High`. Larger value means more noisy the face is.</li>\r\n</ul>\r\n</td></tr>\r\n</tbody>\r\n</table>\r\n",
+                        "examples": {
+                            "application/json": "[\r\n    {\r\n        \"faceId\": \"c5c24a82-6845-4031-9d5d-978df9175426\",\r\n        \"faceRectangle\": {\r\n            \"width\": 78,\r\n            \"height\": 78,\r\n            \"left\": 394,\r\n            \"top\": 54\r\n        },\r\n        \"faceLandmarks\": {\r\n            \"pupilLeft\": {\r\n                \"x\": 412.7,\r\n                \"y\": 78.4 \r\n            },\r\n            \"pupilRight\": {\r\n                \"x\": 446.8,\r\n                \"y\": 74.2 \r\n            },\r\n            \"noseTip\": {\r\n                \"x\": 437.7,\r\n                \"y\": 92.4 \r\n            },\r\n            \"mouthLeft\": {\r\n                \"x\": 417.8,\r\n                \"y\": 114.4 \r\n            },\r\n            \"mouthRight\": {\r\n                \"x\": 451.3,\r\n                \"y\": 109.3 \r\n            },\r\n            \"eyebrowLeftOuter\": {\r\n                \"x\": 397.9,\r\n                \"y\": 78.5 \r\n            },\r\n            \"eyebrowLeftInner\": {\r\n                \"x\": 425.4,\r\n                \"y\": 70.5 \r\n            },\r\n            \"eyeLeftOuter\": {\r\n                \"x\": 406.7,\r\n                \"y\": 80.6 \r\n            },\r\n            \"eyeLeftTop\": {\r\n                \"x\": 412.2,\r\n                \"y\": 76.2 \r\n            },\r\n            \"eyeLeftBottom\": {\r\n                \"x\": 413.0,\r\n                \"y\": 80.1 \r\n            },\r\n            \"eyeLeftInner\": {\r\n                \"x\": 418.9,\r\n                \"y\": 78.0 \r\n            },\r\n            \"eyebrowRightInner\": {\r\n                \"x\": 4.8,\r\n                \"y\": 69.7 \r\n            },\r\n            \"eyebrowRightOuter\": {\r\n                \"x\": 5.5,\r\n                \"y\": 68.5 \r\n            },\r\n            \"eyeRightInner\": {\r\n                \"x\": 441.5,\r\n                \"y\": 75.0 \r\n            },\r\n            \"eyeRightTop\": {\r\n                \"x\": 446.4,\r\n                \"y\": 71.7 \r\n            },\r\n            \"eyeRightBottom\": {\r\n                \"x\": 447.0,\r\n                \"y\": 75.3 \r\n            },\r\n            \"eyeRightOuter\": {\r\n                \"x\": 451.7,\r\n                \"y\": 73.4 \r\n            },\r\n            \"noseRootLeft\": {\r\n                \"x\": 428.0,\r\n                \"y\": 77.1 \r\n            },\r\n            \"noseRootRight\": {\r\n                \"x\": 435.8,\r\n                \"y\": 75.6 \r\n            },\r\n            \"noseLeftAlarTop\": {\r\n                \"x\": 428.3,\r\n                \"y\": 89.7 \r\n            },\r\n            \"noseRightAlarTop\": {\r\n                \"x\": 442.2,\r\n                \"y\": 87.0 \r\n            },\r\n            \"noseLeftAlarOutTip\": {\r\n                \"x\": 424.3,\r\n                \"y\": 96.4 \r\n            },\r\n            \"noseRightAlarOutTip\": {\r\n                \"x\": 446.6,\r\n                \"y\": 92.5 \r\n            },\r\n            \"upperLipTop\": {\r\n                \"x\": 437.6,\r\n                \"y\": 105.9 \r\n            },\r\n            \"upperLipBottom\": {\r\n                \"x\": 437.6,\r\n                \"y\": 108.2 \r\n            },\r\n            \"underLipTop\": {\r\n                \"x\": 436.8,\r\n                \"y\": 111.4 \r\n            },\r\n            \"underLipBottom\": {\r\n                \"x\": 437.3,\r\n                \"y\": 114.5 \r\n            }\r\n        },\r\n        \"faceAttributes\": {\r\n            \"age\": 71.0,\r\n            \"gender\": \"male\",\r\n            \"smile\": 0.88,\r\n            \"facialHair\": {\r\n                \"moustache\": 0.8,\r\n                \"beard\": 0.1,\r\n                \"sideburns\": 0.02\r\n            },\r\n            \"glasses\": \"sunglasses\",\r\n            \"headPose\": {\r\n                \"roll\": 2.1,\r\n                \"yaw\": 3,\r\n                \"pitch\": 0\r\n            },\r\n            \"emotion\":{\r\n                \"anger\": 0.575,\r\n                \"contempt\": 0,\r\n                \"disgust\": 0.006,\r\n                \"fear\": 0.008,\r\n                \"happiness\": 0.394,\r\n                \"neutral\": 0.013,\r\n                \"sadness\": 0,\r\n                \"surprise\": 0.004\r\n            },\r\n            \"hair\": {\r\n                \"bald\": 0.0,\r\n                \"invisible\": false,\r\n                \"hairColor\": [\r\n                    {\"color\": \"brown\", \"confidence\": 1.0},\r\n                    {\"color\": \"blond\", \"confidence\": 0.88},\r\n                    {\"color\": \"black\", \"confidence\": 0.48},\r\n                    {\"color\": \"other\", \"confidence\": 0.11},\r\n                    {\"color\": \"gray\", \"confidence\": 0.07},\r\n                    {\"color\": \"red\", \"confidence\": 0.03}\r\n                ]\r\n            },\r\n            \"makeup\": {\r\n                \"eyeMakeup\": true,\r\n                \"lipMakeup\": false\r\n            },\r\n            \"occlusion\": {\r\n                \"foreheadOccluded\": false,\r\n                \"eyeOccluded\": false,\r\n                \"mouthOccluded\": false\r\n            },\r\n            \"accessories\": [\r\n                {\"type\": \"headWear\", \"confidence\": 0.99},\r\n                {\"type\": \"glasses\", \"confidence\": 1.0},\r\n                {\"type\": \"mask\",\" confidence\": 0.87}\r\n            ],\r\n            \"blur\": {\r\n                \"blurLevel\":\"Medium\",\r\n                \"value\":0.51\r\n            },\r\n            \"exposure\": {\r\n                \"exposureLevel\":\"GoodExposure\",\r\n                \"value\":0.55\r\n            },\r\n            \"noise\": {\r\n                \"noiseLevel\":\"Low\",\r\n                \"value\":0.12\r\n            }\r\n        }\r\n    }\r\n]\r\n"
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "\r\nError code and message returned in JSON:\r\n<table class=\"element table\">\r\n<thead>\r\n<tr><th>Error Code</th><th>Error Message Description</th></tr>\r\n</thead>\r\n<tbody>\r\n<tr><td>BadArgument</td><td>JSON parsing error. Bad or unrecognizable request JSON body.</td></tr>\r\n<tr><td>BadArgument</td><td>Invalid returnFaceAttributes. Supported values are: age, gender, headPose, smile, facialHair, glasses in a comma-separated format.\r\n<tr><td>InvalidURL</td><td>Invalid image format or URL. Supported formats include JPEG, PNG, GIF(the first frame) and BMP.</td></tr>\r\n<tr><td>InvalidURL</td><td>Failed to download image from the specified URL. Remote server error returned.</td></tr>\r\n<tr><td>InvalidImage</td><td>Decoding error, image format unsupported.</td></tr>\r\n<tr><td>InvalidImageSize</td><td>Image size is too small or too big. The valid image file size should be larger than or equal to 1KB but no larger than 4MB.</td></tr>\r\n</tbody>\r\n</table>\r\n  ",
+                        "examples": {
+                            "application/json": {
+                                "error": {
+                                    "code": "BadArgument",
+                                    "message": "Request body is invalid."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "\r\nError code and message returned in JSON:\r\n<table class=\"element table\">\r\n<thead>\r\n<tr><th>Error Code</th><th>Error Message Description</th></tr>\r\n</thead>\r\n<tbody>\r\n<tr><td>Unspecified</td><td>Invalid subscription Key or user/plan is blocked.</td></tr>\r\n</tbody>\r\n</table>\r\n  ",
+                        "examples": {
+                            "application/json": {
+                                "error": {
+                                    "code": "Unspecified",
+                                    "message": "Access denied due to invalid subscription key. Make sure you are subscribed to an API you are trying to call and provide the right key."
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "examples": {
+                            "application/json": {
+                                "error": {
+                                    "statusCode": 403,
+                                    "message": "Out of call volume quota. Quota will be replenished in 2.12 days."
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "\r\nOperation exceeds maximum execution time.\r\n  ",
+                        "examples": {
+                            "application/json": {
+                                "error": {
+                                    "code": "OperationTimeOut",
+                                    "message": "Request Timeout."
+                                }
+                            }
+                        }
+                    },
+                    "415": {
+                        "description": "\r\nUnsupported media type error. Content-Type is not in the allowed types:<br/>\r\n<ol>\r\n<li>For an image URL, Content-Type should be application/json</li>\r\n<li>For a local image, Content-Type should be application/octet-stream</li>\r\n</ol>\r\n  ",
+                        "examples": {
+                            "application/json": {
+                                "error": {
+                                    "code": "BadArgument",
+                                    "message": "Invalid Media Type"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "",
+                        "examples": {
+                            "application/json": {
+                                "error": {
+                                    "statusCode": 429,
+                                    "message": "Rate limit is exceeded. Try again in 26 seconds."
+                                }
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ]
+            }
+        }
+    }
+}

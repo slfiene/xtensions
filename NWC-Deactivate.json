@@ -1,0 +1,90 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Button workflow",
+        "description": "",
+        "version": "1.0.0"
+    },
+    "host": "dmowfoschwebwus.azurewebsites.net",
+    "basePath": "/api/v1/extendableworkflows",
+    "schemes": ["https"],
+    "paths": {
+        "/0ec8f130-7d44-42ff-8166-f446142ee148/start": {
+            "post": {
+                "tags": [],
+                "summary": "start Button workflow",
+                "operationId": "start",
+                "parameters": [{
+                    "name": "API Parameters",
+                    "in": "body",
+                    "required": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "startData": {
+                                "type": "object"
+                            },
+                            "options": {
+                                "type": "object",
+                                "properties": {
+                                    "callbackUrl": {
+                                        "title": "Callback URL on completion",
+                                        "type": "string",
+                                        "description": "A Url to return the results back (https urls only)",
+                                        "x-ntx-visibility": "internal"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }, {
+                    "type": "string",
+                    "name": "token",
+                    "in": "query",
+                    "required": true,
+                    "description": "A security token to start the workflow",
+                    "default": "23eca3903a559e8d9142b6e82c164bf2af8dd5a9b297270effe42d9cb909a6d7",
+                    "x-ntx-summary": "Token"
+                }],
+                "responses": {
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "410": {
+                        "description": "Gone"
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    },
+                    "503": {
+                        "description": "Service Unavailable - Overloaded"
+                    },
+                    "default": {
+                        "description": "Unexpected Error"
+                    }
+                },
+                "x-ntx-callback-schema": {
+                    "type": "object",
+                    "properties": {
+                        "returnData": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {},
+    "parameters": {},
+    "responses": {},
+    "securityDefinitions": {}
+}

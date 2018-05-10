@@ -1,0 +1,227 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Skilljar User Operations",
+        "version": "1.0",
+        "description": "Skilljar User Operations"
+    },
+    "host": "api.skilljar.com",
+    "basePath": "/v1",
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "security": [{
+        "Bearer": []
+    }],
+    "paths": {
+        "/users": {
+            "get": {
+                "description": "List users who have registered on at lease one domain.",
+                "operationId": "getRegisteredUsers",
+                "x-ntx-summary": "Get Registered Users",
+                "parameters": [{
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "type": "integer",
+                        "required": false
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "Page Size",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Call",
+                        "schema": {
+                            "$ref": "#/definitions/getRegUsers"
+                        }
+                    },
+                    "400": {
+                        "description": "Well, that failed"
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "description": "Get user's course registration overview",
+                "operationId": "getUserReg",
+                "x-ntx-summary": "Get User's Course Registration",
+                "parameters": [{
+                    "name": "user_id",
+                    "in": "path",
+                    "description": "User ID",
+                    "required": true,
+                    "type": "string"
+                }],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Hooray!",
+                        "schema": {
+                            "$ref": "#/definitions/getRegUsers"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update User Details",
+                "operationId": "updateUserDetails",
+                "x-ntx-summary": "Update User Details",
+                "parameters": [{
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User ID",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok, that was cool!",
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    }
+                }
+            }
+        },
+        "/domains": {
+            "get": {
+                "description": "List domains. Returns a paginated response (100 results per page) of domains.",
+                "operationId": "getDomains",
+                "x-ntx-summary": "Get Domains",
+                "parameters": [{
+                    "name": "page",
+                    "in": "query",
+                    "type": "integer",
+                    "required": false
+                }],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Hooray, it worked!",
+                        "schema": {
+                            "$ref": "#/definitions/results"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "getRegUsers": {
+            "type": "object",
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/user"
+                },
+                "registration_count": {
+                    "type": "integer"
+                },
+                "completion_count": {
+                    "type": "integer"
+                },
+                "signed_up_at": {
+                    "type": "string"
+                },
+                "latest_activity": {
+                    "type": "string"
+                }
+            }
+        },
+        "user": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "results": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "next": {
+                    "type": "string"
+                },
+                "previous": {
+                    "type": "string"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain"
+                    }
+                }
+            }
+        },
+        "domain": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "catalog_title": {
+                    "type": "string"
+                },
+                "private": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "access": {
+                    "type": "string"
+                },
+                "access_code_message_html": {
+                    "type": "string"
+                },
+                "marketing_message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
