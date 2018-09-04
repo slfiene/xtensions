@@ -1,0 +1,73 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "ntxfucntions.azurewebsites.net",
+        "version": "1.0.0"
+    },
+    "host": "ntxfucntions.azurewebsites.net",
+    "basePath": "/",
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/api/SentAnalysis": {
+            "post": {
+                "operationId": "postSentAnalysis",
+                "parameters": [{
+                    "name": "data",
+                    "in": "body",
+                    "schema": {
+                        "$ref": "#/definitions/data"
+                    }
+                }],
+                "description": "Replace with Operation Object",
+                "x-ntx-summary": "Azure Sentiment Analysis",
+                "responses": {
+                    "200": {
+                        "description": "Success operation",
+                        "schema": {
+                            "$ref": "#/definitions/return"
+                        }
+                    }
+                },
+                "security": [{
+                    "apikeyQuery": []
+                }]
+            }
+        }
+    },
+    "definitions": {
+        "data": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string"
+                },
+                "Language": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "return": {
+            "type": "object",
+            "properties": {
+                "score": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "apikeyQuery": {
+            "type": "apiKey",
+            "name": "code",
+            "in": "query"
+        }
+    }
+}
