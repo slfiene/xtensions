@@ -1,0 +1,67 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Because sometimes you need to encode some things",
+    "version": "1.0.0",
+    "title": "Encode or Decode URI"
+  },
+  "host": "ntxfucntions.azurewebsites.net",
+  "basePath": "/api",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/encodeDecode": {
+      "post": {
+        "x-ntx-summary": "Encode or Decode a URI",
+        "description": "",
+        "operationId": "encodeURI",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/req"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hooray!",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "req": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "Encode",
+            "Decode"
+          ]
+        }
+      }
+    }
+  }
+}
